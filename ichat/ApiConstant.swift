@@ -9,5 +9,6 @@
 import Foundation
 
 class ApiConstant: NSObject{
-    static let SERVER_URL = "http://192.168.1.106:8090/api/"
+    static let SERVER_URL = "http://192.168.1.104:8090/api/"
+    static let SOCKET_IO_URL = "http://192.168.1.104:7001"
 }

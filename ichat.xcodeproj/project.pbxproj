@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B9309532575CC5131E301C8 /* Pods_ichat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A9771F2C07993EF0BACD42 /* Pods_ichat.framework */; };
+		9005D60D1EDC2B1B00D61253 /* ChatViewRecvOfferController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9005D60C1EDC2B1B00D61253 /* ChatViewRecvOfferController.swift */; };
 		901BC2411ECD46C100BF285A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901BC2401ECD46C100BF285A /* AppDelegate.swift */; };
 		901BC2481ECD46C100BF285A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 901BC2471ECD46C100BF285A /* Assets.xcassets */; };
 		901BC24B1ECD46C100BF285A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 901BC2491ECD46C100BF285A /* LaunchScreen.storyboard */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		0A16036F409B8CEB208F49A7 /* Pods-ichat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ichat.release.xcconfig"; path = "Pods/Target Support Files/Pods-ichat/Pods-ichat.release.xcconfig"; sourceTree = "<group>"; };
+		9005D60C1EDC2B1B00D61253 /* ChatViewRecvOfferController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewRecvOfferController.swift; sourceTree = "<group>"; };
 		901BC23D1ECD46C100BF285A /* ichat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ichat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		901BC2401ECD46C100BF285A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		901BC2471ECD46C100BF285A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				901BC2891ECDAC5700BF285A /* ChatViewController.swift */,
+				9005D60C1EDC2B1B00D61253 /* ChatViewRecvOfferController.swift */,
 			);
 			name = chat;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				901BC2781ECD5ED600BF285A /* ApiConstant.swift in Sources */,
+				9005D60D1EDC2B1B00D61253 /* ChatViewRecvOfferController.swift in Sources */,
 				901BC2821ECD8F6A00BF285A /* FamilyHelper.swift in Sources */,
 				901BC27F1ECD8E2300BF285A /* FamilyTableViewCell.swift in Sources */,
 				901BC27A1ECD735500BF285A /* FamilyTableViewController.swift in Sources */,

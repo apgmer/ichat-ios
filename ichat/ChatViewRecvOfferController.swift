@@ -11,9 +11,8 @@ import SocketIO
 import SwiftyJSON
 import AVFoundation
 
-class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeerConnectionDelegate,RTCEAGLVideoViewDelegate{
+class ChatViewRecvOfferController: UIViewController,RTCSessionDescriptionDelegate,RTCPeerConnectionDelegate,RTCEAGLVideoViewDelegate{
     
-//    let TAG = "ChatViewController"
     let VIDEO_TRACK_ID = "ChatViewControllerVIDEO"
     let AUDIO_TRACK_ID = "ChatViewControllerAUDIO"
     let LOCAL_MEDIA_STREAM_ID = "ChatViewControllerSTREAM"
@@ -155,7 +154,7 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
                 if( type == "login"){
                     
                     self.isLogin = true
-//                    self.connectedUser = "590c398b25ac4f13707a0c9a";
+                    //                    self.connectedUser = "590c398b25ac4f13707a0c9a";
                     self.connect()
                     
                 }else if (type == "offer") {
@@ -174,7 +173,6 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
                     let sdp = RTCSessionDescription(type: type, sdp: sdpStr)
                     //                    let sdp = RTCSessionDescription(type: type, sdp: json["sdp"] as! String)
                     self.onAnswer(sdp!);
-                    
                     
                 } else if (type == "candidate" && self.peerStarted) {
                     let candidateInfo = json["candidate"]
@@ -288,9 +286,9 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
     }
     func sigSend(_ msg:Dictionary<String,AnyObject>) {
         var sendMsg = msg;
-//        if(self.connectedUser != nil){
-//            sendMsg["name"]  = self.connectedUser as AnyObject
-//        }
+        //        if(self.connectedUser != nil){
+        //            sendMsg["name"]  = self.connectedUser as AnyObject
+        //        }
         
         if (isLogin) {
             if let connectTo = self.connectedUser {
@@ -300,8 +298,8 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
         let str = JSON(sendMsg).rawString()
         socket.emit("webrtcMsg", str!)
         
-
-
+        
+        
     }
     
     func getRoomName() -> String {

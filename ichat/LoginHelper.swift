@@ -38,7 +38,7 @@ class LoginHelper {
                         }catch{
                             print("JSON Processing Failed")
                             complete(false)
-                        }
+                        }	
                         
                         
                     }
