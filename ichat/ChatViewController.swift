@@ -13,7 +13,6 @@ import AVFoundation
 
 class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeerConnectionDelegate,RTCEAGLVideoViewDelegate{
     
-//    let TAG = "ChatViewController"
     let VIDEO_TRACK_ID = "ChatViewControllerVIDEO"
     let AUDIO_TRACK_ID = "ChatViewControllerAUDIO"
     let LOCAL_MEDIA_STREAM_ID = "ChatViewControllerSTREAM"
@@ -42,7 +41,7 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
         self.view.addSubview(renderer)
         self.view.addSubview(renderer_sub)
         renderer.delegate = self;
-        
+        self.initBtns()
         
         guard let device = AVCaptureDevice.defaultDevice(
             withDeviceType: .builtInWideAngleCamera,
@@ -81,6 +80,26 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
     }
     func Log(_ value:String) {
         //print(TAG + " " + value)
+    }
+    func initBtns() -> Void {
+        let leaveButton = UIButton(frame: CGRect(x: 20, y: 500, width: 44, height: 44))
+        leaveButton.backgroundColor = UIColor.red
+        leaveButton.addTarget(self, action: #selector(leave), for: .touchUpInside)
+        leaveButton.setTitle("挂断", for: .normal)
+        self.view.addSubview(leaveButton)
+    }
+    func leave() {
+        let json:[String: AnyObject] = [
+            "type" : "leave" as AnyObject
+        ]
+        sigSend(json as Dictionary);
+        self.leaveAction()
+    }
+    
+    func leaveAction() -> Void {
+        self.dismiss(animated: true) { 
+            self.socket.disconnect()
+        }
     }
     
     
@@ -191,7 +210,9 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
                     self.Log("disconnected");
                     self.stop();
                     
-                } else {
+                }else if(type == "leave"){
+                    self.showLeaveAlert()
+                }else {
                     self.Log("Unexpected WebSocket message: " + (data[0] as AnyObject).description);
                 }
             }
@@ -199,6 +220,36 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
         }
         socket.connect();
     }
+    func showLeaveAlert() {
+        let alert = UIAlertController(title: "提示",
+                                      message: "对方已离开",
+                                      preferredStyle: UIAlertControllerStyle.alert)
+        let defaultAction = UIAlertAction(title: "确定",
+                                          style: UIAlertActionStyle.default,
+                                          handler:{ (action: UIAlertAction) -> Void in
+                                            self.leaveAction()
+        })
+        
+        //        let cancelAction = UIAlertAction(title: "cancel",
+        //                                         style: UIAlertActionStyle.cancel,
+        //                                         handler:{ (action: UIAlertAction) -> Void in
+        //                                            print("UIAlertController action :", action.title ?? "cancel");
+        //        })
+//        let destructiveAction = UIAlertAction(title: "拒绝",
+//                                              style: UIAlertActionStyle.destructive,
+//                                              handler:{ (action: UIAlertAction) -> Void in
+//                                                print("UIAlertController action :", action.title ?? "cancel");
+//        })
+        
+        
+        alert.addAction(defaultAction);
+        //        alert.addAction(cancelAction);
+//        alert.addAction(destructiveAction);
+        present(alert, animated: true, completion: {
+            print("UIAlertController present");
+        })
+    }
+
     
     func onOffer(_ sdp:RTCSessionDescription) {
         setOffer(sdp)

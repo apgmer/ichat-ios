@@ -43,7 +43,7 @@ class FamilyTableViewController: UITableViewController {
             , refreshingAction: #selector(FamilyTableViewController.headerRefresh))
         // 现在的版本要用mj_header
         self.tableView.mj_header = header
-        self.initSocket()
+        
 
     }
     func headerRefresh(){
@@ -65,6 +65,7 @@ class FamilyTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.setupData()
+        self.initSocket()
     }
     
     override func didReceiveMemoryWarning() {
@@ -166,7 +167,8 @@ class FamilyTableViewController: UITableViewController {
                 if( type == "request"){
                     self.showAlert()
                 }else if(type == "ok"){
-                    let chatVC = ChatViewRecvOfferController()
+//                    let chatVC = ChatViewRecvOfferController()
+                    let chatVC = ChatViewController()
                     chatVC.connectedUser = self.requestUser
                     self.present(chatVC, animated: true, completion: nil)
                     self.hideHud()
@@ -188,7 +190,7 @@ class FamilyTableViewController: UITableViewController {
     
     func showAlert() {
         let alert = UIAlertController(title: "提示",
-                                      message: "message",
+                                      message: "您的好友请求与您通话，是否接受？",
                                       preferredStyle: UIAlertControllerStyle.alert)
         let defaultAction = UIAlertAction(title: "同意",
                                           style: UIAlertActionStyle.default,
