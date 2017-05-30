@@ -198,8 +198,9 @@ class FamilyTableViewController: UITableViewController {
                                             print("UIAlertController action :",action.title ?? "default");
                                             let ok:Dictionary = [
                                                 "type":"ok",
-                                                "name":self.requestUser
-                                            ]
+                                                "name":self.requestUser ?? "",
+                                                "isMobile":true
+                                            ] as [String : Any]
                                             self.sigSend(ok as Dictionary<String, AnyObject>)
                                             let chatVC = ChatViewController()
                                             chatVC.connectedUser = self.requestUser

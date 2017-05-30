@@ -11,13 +11,15 @@ import SocketIO
 import SwiftyJSON
 import AVFoundation
 
-class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeerConnectionDelegate,RTCEAGLVideoViewDelegate{
+class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeerConnectionDelegate,RTCEAGLVideoViewDelegate,AMapLocationManagerDelegate{
     
     let VIDEO_TRACK_ID = "ChatViewControllerVIDEO"
     let AUDIO_TRACK_ID = "ChatViewControllerAUDIO"
     let LOCAL_MEDIA_STREAM_ID = "ChatViewControllerSTREAM"
     
     var nowUser:User = LoginHelper.getLogUser();
+    
+    var locationManager:AMapLocationManager?
     
     var isLogin = false;
     var connectedUser:String?
@@ -32,6 +34,11 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.locationManager = AMapLocationManager()
+        self.locationManager?.delegate = self;
+        self.locationManager?.startUpdatingLocation()
+        
         // Do any additional setup after loading the view, typically from a nib.
         initWebRTC();
         sigConnect(ApiConstant.SOCKET_IO_URL);
@@ -53,6 +60,7 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
         
         let capturer = RTCVideoCapturer(deviceName: device.localizedName)
         
+        
         let videoConstraints = RTCMediaConstraints()
         
         _ = RTCMediaConstraints()
@@ -68,6 +76,19 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
         
         localVideoTrack.add(renderer_sub)
         
+    }
+    
+    func amapLocationManager(_ manager: AMapLocationManager!, didUpdate location: CLLocation!) {
+        NSLog("location:{lat:\(location.coordinate.latitude); lon:\(location.coordinate.longitude); accuracy:\(location.horizontalAccuracy)};");
+        
+        let locationData:Dictionary = [
+            "type":"loc",
+            "lat":location.coordinate.latitude,
+            "lon":location.coordinate.longitude
+        ] as [String : Any]
+        print("send location")
+        self.sigSend(locationData as Dictionary<String, AnyObject>)
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -97,6 +118,17 @@ class ChatViewController: UIViewController,RTCSessionDescriptionDelegate,RTCPeer
     }
     
     func leaveAction() -> Void {
+        self.locationManager?.stopUpdatingLocation()
+        mediaStream.removeAudioTrack(localAudioTrack)
+        mediaStream.removeVideoTrack(localVideoTrack)
+        mediaStream = nil;
+        self.remoteVideoTrack.remove(self.renderer)
+        self.localVideoTrack.remove(self.renderer_sub)
+        self.localVideoTrack = nil;
+        self.renderer_sub.renderFrame(nil)
+        self.remoteVideoTrack = nil
+        self.renderer.renderFrame(nil)
+
         self.dismiss(animated: true) { 
             self.socket.disconnect()
         }

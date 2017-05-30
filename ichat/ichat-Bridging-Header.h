@@ -38,4 +38,9 @@
 #import "RTCVideoSource.h"
 #import "RTCVideoTrack.h"
 
+
+#import <AMapFoundationKit/AMapFoundationKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
+
+
 #endif /* ichat_Bridging_Header_h */
