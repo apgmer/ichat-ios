@@ -138,8 +138,13 @@ class FamilyTableViewController: UITableViewController {
     func keepOnline() -> Void {
         LoginHelper.keepOnlineReq()
     }
+    
+
+    
     func initSocket() -> Void {
         socket = SocketIOClient(socketURL: URL(string: ApiConstant.SOCKET_IO_URL)!, config: [.log(false), .forcePolling(true)])
+        
+        
         socket.on("connect") { data in
             let loginData:Dictionary = [
                 "type":"login",
