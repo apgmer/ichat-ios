@@ -8,4 +8,6 @@ target 'ichat' do
     pod 'MBProgressHUD'
     pod 'Alamofire'
     pod 'MJRefresh'
+    pod 'AMap3DMap'
+    pod 'AMapLocation'
 end
